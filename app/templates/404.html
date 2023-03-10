@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% import 'macros.html' as macros %}
+
+
+{% block title %} George 404 {% endblock %}
+{% block page_content %}
+<div class="page-header">
+    {{ macros.Error_Message("test") }}
+</div>
+{% endblock %}
