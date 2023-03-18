@@ -1,12 +1,12 @@
 from app import create_app, db
-from app.models import User, Role
+from app.models import User, Role, UserRequest, SoftwareRequest
 import click
 
 app  = create_app()
 
 @app.shell_context_processor
 def make_shell_context():
-    return dict(db=db, User=User, Role=Role)
+    return dict(db=db, User=User, Role=Role, UserRequest=UserRequest, SoftwareRequest=SoftwareRequest)
 
 @app.cli.command()
 @click.argument('test_names', nargs=-1)

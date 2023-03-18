@@ -2,20 +2,44 @@ from . import db
 
 #Defining "Models" (Tables)
 class Role(db.Model): 
-    __tablename__ = 'roles' 
-    id = db.Column(db.Integer, primary_key=True) 
-    name = db.Column(db.String(64), unique=True) 
+    __tablename__ = 'Role' 
+    RoleID = db.Column(db.Integer, primary_key=True) 
+    RoleName = db.Column(db.String(64), unique=True) 
 
-    users = db.relationship('User', backref='role', lazy='dynamic')
+    Users = db.relationship('User', backref='role', lazy='dynamic')
     
     def __repr__(self): 
-        return '<Role %r>' % self.name 
+        return '<Role %r>' % self.RoleName 
         
 class User(db.Model): 
-    __tablename__ = 'users' 
-    id = db.Column(db.Integer, primary_key=True) 
-    username = db.Column(db.String(64), unique=True, index=True) 
-    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    __tablename__ = 'User' 
+    UserID = db.Column(db.Integer, primary_key=True) 
+    Username = db.Column(db.String(125), unique=True, index=True) 
+    Password = db.Column(db.String(125)) 
+    Email = db.Column(db.String(255), unique=True, index=True) 
+    RoleID = db.Column(db.Integer, db.ForeignKey('Role.RoleID'))
+    
+    User_Requests = db.relationship('UserRequest', backref='user', lazy=True)
     
     def __repr__(self): 
-       return '<User %r>' % self.username
+       return '<User %r>' % self.Username
+    
+class SoftwareRequest(db.Model):
+    __tablename__ = 'SoftwareRequest' 
+    RequestID = db.Column(db.Integer, primary_key=True)
+    RequestTitle = db.Column(db.String(64)) #Strayed a little off the model in a few areas...
+    RequestDetails = db.Column(db.String(255))
+    RequestImpact = db.Column(db.String(255), nullable=True)
+    RequestDeadline = db.Column(db.DateTime, nullable=True)
+    RequestImportance = db.Column(db.Integer)
+    RequestAccepted = db.Column(db.Boolean, nullable=True)
+
+    user_request = db.relationship('UserRequest', backref='software_request', uselist=False)
+
+    def __repr__(self): 
+       return '<SoftwareRequest %r>' % self.RequestTitle
+    
+class UserRequest(db.Model):
+    __tablename__ = 'UserRequest' 
+    UserID = db.Column(db.Integer, db.ForeignKey('User.UserID') ,primary_key=True)
+    RequestId = db.Column(db.Integer, db.ForeignKey('SoftwareRequest.RequestID'),primary_key=True)
