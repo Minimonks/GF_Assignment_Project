@@ -25,4 +25,11 @@ def about():
 @main.route("/RequestAccount/")
 def reqAccount():
     form = RequestAccountForm()
+
+    if form.validate_on_submit():
+        roleId = 1 if form.role.data else 0
+        user = User(Username = form.username.data, Email = form.email.data, Password = form.password.data, RoleID = roleId)
+        db.session.add(user)
+        db.session.commit()
+        return redirect(url_for('main.login'))
     return render_template("requestAccount.html",form=form)
