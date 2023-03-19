@@ -6,7 +6,7 @@ GF Software Ticketing | Login
 {% endblock %}
 
 {% block page_content %}
-<p>Login Page</p>
+<h1>Login:</h1><br>
 {{ wtf.quick_form(form) }} 
 <br>
 <a href="{{ url_for('main.reqAccount') }}" class="navbar-item">Request Account</a>
