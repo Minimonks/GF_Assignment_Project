@@ -1,11 +1,10 @@
 from flask import Blueprint, render_template,session,url_for,redirect
 from .. import db
 from ..models import User
-from.forms import LoginForm
+from.forms import LoginForm, RequestAccountForm
 
 main = Blueprint('main',__name__)
 
-@main.route('/', methods=['GET', 'POST'])
 @main.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -21,3 +20,9 @@ def home():
 @main.route("/about/")
 def about():
     return render_template("about.html")
+
+@main.route('/', methods=['GET', 'POST'])
+@main.route("/RequestAccount/")
+def reqAccount():
+    form = RequestAccountForm()
+    return render_template("requestAccount.html",form=form)
