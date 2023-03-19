@@ -27,7 +27,7 @@ def reqAccount():
     form = RequestAccountForm()
 
     if form.validate_on_submit():
-        roleId = 1 if form.role.data else 0
+        roleId = 2 if form.role.data else 1
         user = User(Username = form.username.data, Email = form.email.data, Password = form.password.data, RoleID = roleId)
         db.session.add(user)
         db.session.commit()
