@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template,session,url_for,redirect
+from flask import Blueprint, flash, render_template,session,url_for,redirect
 from .. import db
 from ..models import User
 from.forms import LoginForm, RequestAccountForm
@@ -11,8 +11,16 @@ main = Blueprint('main',__name__)
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        # handle login logic
-        return redirect(url_for('main.index'))
+        user = User.query.filter_by(Username=form.username.data).first()
+        if user:
+            if user.Password == form.password.data:
+                login_user(user)
+                return redirect(url_for('main.home'))
+            else:
+                flash("Wrong Password!")
+        else:
+            flash("No user found...")
+        
     return render_template('login.html', form=form)
 
 @main.route("/home/")
@@ -24,7 +32,7 @@ def home():
 def about():
     return render_template("about.html")
 
-@main.route("/RequestAccount/")
+@main.route("/RequestAccount/", methods=['GET', 'POST'])
 def reqAccount():
     form = RequestAccountForm()
 

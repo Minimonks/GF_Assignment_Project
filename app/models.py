@@ -14,7 +14,7 @@ class Role(db.Model):
         
 class User(db.Model, UserMixin): 
     __tablename__ = 'User' 
-    UserID = db.Column(db.Integer, primary_key=True, nullable=False) 
+    id = db.Column(db.Integer, primary_key=True, nullable=False) 
     Username = db.Column(db.String(125), unique=True, index=True, nullable=False) 
     Password = db.Column(db.String(125), nullable=False) 
     Email = db.Column(db.String(255), unique=True, index=True, nullable=False) 
@@ -42,5 +42,5 @@ class SoftwareRequest(db.Model):
     
 class UserRequest(db.Model):
     __tablename__ = 'UserRequest' 
-    UserID = db.Column(db.Integer, db.ForeignKey('User.UserID') ,primary_key=True, nullable=False)
+    UserID = db.Column(db.Integer, db.ForeignKey('User.id') ,primary_key=True, nullable=False)
     RequestId = db.Column(db.Integer, db.ForeignKey('SoftwareRequest.RequestID'),primary_key=True, nullable=False)
