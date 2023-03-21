@@ -17,7 +17,15 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li><a href="{{ url_for('main.about') }}" class="navbar-item">About</a></li>
-                <!-- <li><a href="{{ url_for('main.login') }}" class="navbar-item">Login</a></li> -->
+
+                {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('main.createRequest') }}" class="navbar-item">Create Request</a></li>
+                <li><a href="{{ url_for('main.logout') }}" class="navbar-item">Logout</a></li>
+
+                {% else %}
+                <li><a href="{{ url_for('main.login') }}" class="navbar-item">Login</a></li>
+
+                {% endif %}
             </ul>
         </div>
     </div>

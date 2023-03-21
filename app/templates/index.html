@@ -2,7 +2,11 @@
 
 {% block page_content %}
 <div>
-    Hello Flask
-    <a href="{{url_for('main.logout')}}">Logout</a>
+    <h1>Home: </h1>    
+          <p class="card-text"><b>Username:</b> {{current_user.Username}} </p>
+          <p class="card-text"><b>Email:</b> {{current_user.Email}} </p>      
+      <hr>
+
+    <h2>Requests:</h2><br>
 </div>
 {% endblock %}

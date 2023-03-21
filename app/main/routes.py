@@ -21,8 +21,13 @@ def login():
                 flash("Wrong Password!")
         else:
             flash("No user found...")
-        
-    return render_template('login.html', form=form)
+
+    #GET
+    if current_user.is_authenticated:    
+     return redirect(url_for('main.home'))
+    else:
+     return render_template('login.html', form=form)
+
 
 @main.route('/logout', methods=['GET', 'POST'])
 @login_required
@@ -51,4 +56,12 @@ def reqAccount():
         db.session.commit()
         flash("Account Created")
         return redirect(url_for('main.login'))
-    return render_template("requestAccount.html",form=form)
+    
+    if current_user.is_authenticated:    
+     return redirect(url_for('main.home'))
+    else:
+     return render_template("requestAccount.html",form=form)
+
+@main.route("/CreateRequest", methods=['GET', 'POST'])
+def createRequest():
+    return render_template("createRequest.html")
