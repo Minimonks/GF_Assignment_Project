@@ -49,5 +49,6 @@ def reqAccount():
         user = User(Username = form.username.data, Email = form.email.data, Password = form.password.data, RoleID = roleId)
         db.session.add(user)
         db.session.commit()
+        flash("Account Created")
         return redirect(url_for('main.login'))
     return render_template("requestAccount.html",form=form)
