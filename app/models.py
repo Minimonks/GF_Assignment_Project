@@ -1,4 +1,5 @@
 from . import db
+from flask_login import UserMixin
 
 #Defining "Models" (Tables)
 class Role(db.Model): 
@@ -11,7 +12,7 @@ class Role(db.Model):
     def __repr__(self): 
         return '<Role %r>' % self.RoleName 
         
-class User(db.Model): 
+class User(db.Model, UserMixin): 
     __tablename__ = 'User' 
     UserID = db.Column(db.Integer, primary_key=True, nullable=False) 
     Username = db.Column(db.String(125), unique=True, index=True, nullable=False) 

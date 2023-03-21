@@ -1,4 +1,4 @@
-from app import create_app, db
+from app import create_app, db, login_manager
 from app.models import User, Role, UserRequest, SoftwareRequest
 import click
 
@@ -18,3 +18,7 @@ def test(test_names):
     else:
         tests = unittest.TestLoader().discover('tests')
     unittest.TextTestRunner(verbosity=2).run(tests)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get((int(user_id)))

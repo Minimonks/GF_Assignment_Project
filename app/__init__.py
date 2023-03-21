@@ -2,9 +2,11 @@ from flask import Flask
 from config import config
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
+login_manager = LoginManager()
 
 
 def create_app(app_config = 'development'):
@@ -13,6 +15,9 @@ def create_app(app_config = 'development'):
 
     bootstrap.init_app(app)
     db.init_app(app)
+
+    login_manager.init_app(app)
+    login_manager.login_view = 'main.login'
     
     from app.main.routes import main
 

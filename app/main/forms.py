@@ -13,5 +13,5 @@ class RequestAccountForm(FlaskForm):
     email = StringField('Email:', validators=[DataRequired()]) #, Email()
     password = PasswordField('Password:',  validators=[DataRequired(), EqualTo('confirmPassword', message='Passwords must match')])
     confirmPassword = PasswordField('Confirm Password:', validators=[DataRequired()])
-    role = BooleanField('Admin Account:') #May be more roles in future ofc... but now... only admin/user
+    role = BooleanField('Admin Account') #May be more roles in future ofc... but now... only admin/user
     submit = SubmitField('Request Account')

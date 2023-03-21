@@ -2,6 +2,7 @@ from flask import Blueprint, render_template,session,url_for,redirect
 from .. import db
 from ..models import User
 from.forms import LoginForm, RequestAccountForm
+from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 
 main = Blueprint('main',__name__)
 
@@ -15,6 +16,7 @@ def login():
     return render_template('login.html', form=form)
 
 @main.route("/home/")
+@login_required
 def home():
     return render_template('index.html')
 
