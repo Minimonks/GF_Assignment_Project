@@ -15,6 +15,7 @@ def login():
         if user:
             if user.Password == form.password.data:
                 login_user(user)
+                flash("Logged in.")
                 return redirect(url_for('main.home'))
             else:
                 flash("Wrong Password!")
@@ -22,6 +23,13 @@ def login():
             flash("No user found...")
         
     return render_template('login.html', form=form)
+
+@main.route('/logout', methods=['GET', 'POST'])
+@login_required
+def logout():
+    logout_user()
+    flash("Logged out.")
+    return redirect(url_for('main.login'))
 
 @main.route("/home/")
 @login_required
