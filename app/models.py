@@ -1,5 +1,6 @@
 from . import db
 from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
 
 #Defining "Models" (Tables)
 class Role(db.Model): 
@@ -22,6 +23,17 @@ class User(db.Model, UserMixin):
     
     User_Requests = db.relationship('UserRequest', backref='user', lazy=True)
     
+    @property
+    def password(self):
+        raise AttributeError('Password is not a readable field.')
+    
+    @password.setter
+    def password(self,password):
+        self.Password = generate_password_hash(password)
+
+    def verify_password(self, password):
+        return check_password_hash(self.Password, password)
+
     def __repr__(self): 
        return '<User %r>' % self.Username
     

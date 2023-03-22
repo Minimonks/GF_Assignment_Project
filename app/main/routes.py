@@ -2,7 +2,8 @@ from flask import Blueprint, flash, render_template,session,url_for,redirect
 from .. import db
 from ..models import User
 from.forms import LoginForm, RequestAccountForm
-from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
+from flask_login import login_user, login_required, logout_user, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
 
 main = Blueprint('main',__name__)
 
@@ -13,7 +14,7 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(Username=form.username.data).first()
         if user:
-            if user.Password == form.password.data:
+            if check_password_hash(user.Password ,form.password.data):
                 login_user(user)
                 flash("Logged in.")
                 return redirect(url_for('main.home'))
@@ -51,7 +52,10 @@ def reqAccount():
 
     if form.validate_on_submit():
         roleId = 2 if form.role.data else 1
-        user = User(Username = form.username.data, Email = form.email.data, Password = form.password.data, RoleID = roleId)
+
+        hashed_pw = generate_password_hash(form.password.data, "sha256")
+        
+        user = User(Username = form.username.data, Email = form.email.data, Password = hashed_pw, RoleID = roleId)
         db.session.add(user)
         db.session.commit()
         flash("Account Created")
