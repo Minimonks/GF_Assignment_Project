@@ -25,5 +25,21 @@
         </Select></div>
     </div>
       <br>
+    <div>
+        <table class="table table-bordered">
+            <thead>
+                <td>Request</td>
+                <td>Request Details</td>
+            </thead>
+            <tbody>
+                {% for request in requests %}
+                <tr>
+                    <td>{{request.RequestTitle}}</td>
+                    <td>{{request.RequestDetails}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}

@@ -43,14 +43,16 @@ def logout():
 def home(status=None):
     if current_user.RoleID is 1: #User
         if status is None:
-         #Get all requests that are unnaproved
+         #Get user requests that are unnaproved
          role="User"
-         return render_template('index.html', role=role)
+         requests = (db.session.query(SoftwareRequest).join(UserRequest, SoftwareRequest.RequestID == UserRequest.RequestId).filter(UserRequest.UserID == current_user.id).all())
+         return render_template('index.html', role=role, requests=requests)
     else: #Admin
         if status is None:
          #Get all requests that are unnaproved
          role="Admin"
-         return render_template('index.html', role=role)
+         requests = SoftwareRequest.query.filter_by(RequestAccepted=None).all()
+         return render_template('index.html', role=role, requests=requests)
 
 
 @main.route("/about/")
