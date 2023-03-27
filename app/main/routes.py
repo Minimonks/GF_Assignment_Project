@@ -38,9 +38,20 @@ def logout():
     return redirect(url_for('main.login'))
 
 @main.route("/home/")
+@main.route("/home/<status>")
 @login_required
-def home():
-    return render_template('index.html')
+def home(status=None):
+    if current_user.RoleID is 1: #User
+        if status is None:
+         #Get all requests that are unnaproved
+         role="User"
+         return render_template('index.html', role=role)
+    else: #Admin
+        if status is None:
+         #Get all requests that are unnaproved
+         role="Admin"
+         return render_template('index.html', role=role)
+
 
 @main.route("/about/")
 def about():

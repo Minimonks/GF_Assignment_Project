@@ -3,10 +3,27 @@
 {% block page_content %}
 <div>
     <h1>Home: </h1>    
-          <p class="card-text"><b>Username:</b> {{current_user.Username}} </p>
-          <p class="card-text"><b>Email:</b> {{current_user.Email}} </p>      
+          <p><b>Username:</b> {{current_user.Username}} </p>
+          <p><b>Email:</b> {{current_user.Email}} </p>    
+          ({{role}})  
       <hr>
 
-    <h2>Requests:</h2><br>
+    <div class="row">
+        <div class="col-md-9">
+            {% if current_user.RoleID == 1 %}
+            <h2>My Requests:</h2>
+            {% else %}
+            <h2>System Requests:</h2>
+            {% endif %}
+        
+        </div>
+        <div class="col-md-3"><h3 style="display: inline;">Select status:</h3> &nbsp; <select>
+
+            <option value="Pending">Pending</option>
+            <option value="Accepted">Accepted</option>
+            <option value="Rejected">Rejected</option>
+        </Select></div>
+    </div>
+      <br>
 </div>
 {% endblock %}
