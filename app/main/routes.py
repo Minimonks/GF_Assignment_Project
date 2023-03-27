@@ -1,7 +1,7 @@
 from flask import Blueprint, flash, render_template,session,url_for,redirect
 from .. import db
-from ..models import User
-from.forms import LoginForm, RequestAccountForm
+from ..models import User, SoftwareRequest, UserRequest
+from.forms import LoginForm, RequestAccountForm, RequestSoftwareForm
 from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -67,5 +67,22 @@ def reqAccount():
      return render_template("requestAccount.html",form=form)
 
 @main.route("/CreateRequest", methods=['GET', 'POST'])
+@login_required
 def createRequest():
-    return render_template("createRequest.html")
+
+    form = RequestSoftwareForm()
+
+    if form.validate_on_submit():
+       softwareReq = SoftwareRequest(RequestTitle = form.title.data, RequestDetails = form.details.data, RequestImpact = form.impact.data, RequestDeadline = form.deadline.data, RequestImportance = form.importance.data )
+       db.session.add(softwareReq)
+
+       reqId = db.session.query(db.func.max(SoftwareRequest.RequestID)).scalar()
+
+       userReq = UserRequest(UserID=current_user.id, RequestId = reqId) 
+       db.session.add(userReq)
+
+       db.session.commit()
+       flash("Request Created")
+       return redirect(url_for('main.home'))
+
+    return render_template("createRequest.html", form=form)

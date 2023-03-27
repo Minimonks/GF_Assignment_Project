@@ -43,7 +43,7 @@ class SoftwareRequest(db.Model):
     RequestTitle = db.Column(db.String(64), nullable=False) #Strayed a little off the model in a few areas...
     RequestDetails = db.Column(db.String(255), nullable=False)
     RequestImpact = db.Column(db.String(255), nullable=True)
-    RequestDeadline = db.Column(db.DateTime, nullable=True)
+    RequestDeadline = db.Column(db.Date, nullable=True)
     RequestImportance = db.Column(db.Integer, nullable=False)
     RequestAccepted = db.Column(db.Boolean, nullable=True)
 
