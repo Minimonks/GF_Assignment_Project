@@ -34,7 +34,7 @@
             <tbody>
                 {% for request in requests %}
                 <tr>
-                    <td>{{request.RequestTitle}}</td>
+                    <td><a href="{{ url_for('main.requestDetails', requestID=request.RequestID) }}">{{ request.RequestTitle }}</a></td>
                     <td>{{request.RequestDetails}}</td>
                 </tr>
                 {% endfor %}

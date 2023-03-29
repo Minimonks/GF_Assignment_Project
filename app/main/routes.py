@@ -82,7 +82,7 @@ def reqAccount():
 @main.route("/CreateRequest", methods=['GET', 'POST'])
 @login_required
 def createRequest():
-
+    
     form = RequestSoftwareForm()
 
     if form.validate_on_submit():
@@ -99,3 +99,7 @@ def createRequest():
        return redirect(url_for('main.home'))
 
     return render_template("createRequest.html", form=form)
+
+@main.route("/RequestDetails/<requestID>")
+def requestDetails(requestID):
+ return render_template("requestDetails.html")
