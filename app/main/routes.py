@@ -100,6 +100,9 @@ def createRequest():
 
     return render_template("createRequest.html", form=form)
 
-@main.route("/RequestDetails/<requestID>")
+@main.route("/RequestDetails/<int:requestID>", methods=['GET', 'POST'])
+@login_required
 def requestDetails(requestID):
- return render_template("requestDetails.html")
+ request = db.session.query(SoftwareRequest).filter_by(RequestID = requestID).first()
+ form = RequestSoftwareForm()
+ return render_template("requestDetails.html", request=request, form=form)

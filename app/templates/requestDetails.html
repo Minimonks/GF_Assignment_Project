@@ -6,5 +6,44 @@ GF Software Ticketing | Request Details
 {% endblock %}
 
 {% block page_content %}
-<h1>Request Details:</h1><br>
+<h1>Request Details: {{request.RequestTitle}}</h1><br>
+
+{% if request.RequestAccepted is none %}
+    <div class="alert alert-warning">Request Pending</div>
+{% elif request.RequestAccepted %}
+<div class="alert alert-success">Request Accepted</div>
+{% else %}
+<div class="alert alert-danger">Request Rejected</div>
+{% endif %}
+
+<!-- Form -->
+<form method="post">
+
+    <div class="form-group">
+      <label for="{{ form.title.id }}">Request Title:</label>
+      {{ form.title(class_='form form-control') }}
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.details.id }}">Request Details:</label>
+      {{ form.details(class_='form form-control') }}
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.impact.id }}">Request Impact:</label>
+      {{ form.impact(class_='form form-control') }}
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.deadline.id }}">Request Deadline:</label>
+      {{ form.deadline(class_='form form-control') }}
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.importance.id }}">Request Importance:</label>
+      {{ form.importance(class_='form form-control') }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update Request</button>
+  </form>
 {% endblock %}

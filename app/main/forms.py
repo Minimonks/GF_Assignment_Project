@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, BooleanField, DateField, IntegerField
+from wtforms import StringField, SubmitField, PasswordField, BooleanField, DateField, IntegerField, TextAreaField
 from wtforms.validators import DataRequired, EqualTo, Length, Optional, NumberRange
 
 
@@ -18,8 +18,8 @@ class RequestAccountForm(FlaskForm):
 
 class RequestSoftwareForm(FlaskForm):
     title = StringField('Request Title:', validators=[DataRequired(), Length(max=64)])
-    details = StringField('Details:', validators=[DataRequired()])
-    impact =  StringField('Impact:')      
+    details = TextAreaField('Details:', validators=[DataRequired()])
+    impact =  TextAreaField('Impact:')      
     deadline =  DateField('Due Date:', validators=[Optional()]) 
     importance = IntegerField('Importance', validators=[DataRequired(), NumberRange(min=0, max=5)]) 
     submit = SubmitField('Submit Request')
