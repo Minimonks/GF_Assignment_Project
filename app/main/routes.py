@@ -103,6 +103,18 @@ def createRequest():
 @main.route("/RequestDetails/<int:requestID>", methods=['GET', 'POST'])
 @login_required
 def requestDetails(requestID):
+ 
  request = db.session.query(SoftwareRequest).filter_by(RequestID = requestID).first()
+
  form = RequestSoftwareForm()
- return render_template("requestDetails.html", request=request, form=form)
+ form.title.data = request.RequestTitle
+ form.details.data = request.RequestDetails
+ form.impact.data = request.RequestImpact
+ form.deadline.data = request.RequestDeadline
+ form.importance.data = request.RequestImportance
+
+ requestUserID = db.session.query(UserRequest.UserID).filter_by(RequestId = requestID).scalar()
+
+ requestUser = db.session.query(User).filter_by(id = requestUserID).scalar()
+
+ return render_template("requestDetails.html", request=request, form=form, requestUser=requestUser)

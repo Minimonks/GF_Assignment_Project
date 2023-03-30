@@ -6,7 +6,9 @@ GF Software Ticketing | Request Details
 {% endblock %}
 
 {% block page_content %}
-<h1>Request Details: {{request.RequestTitle}}</h1><br>
+<h1>Request Details: {{request.RequestTitle}}</h1>
+<h2>Left by: {{requestUser.Username}}</h2>
+<br>
 
 {% if request.RequestAccepted is none %}
     <div class="alert alert-warning">Request Pending</div>
@@ -44,6 +46,9 @@ GF Software Ticketing | Request Details
       {{ form.importance(class_='form form-control') }}
     </div>
 
+    {% if request.RequestAccepted is none and requestUser.id == current_user.id %}
     <button type="submit" class="btn btn-primary">Update Request</button>
-  </form>
+    {% endif %}
+
+  </form> 
 {% endblock %}
