@@ -16,7 +16,11 @@
 
 7. run the venv, and in terminal type in “flask shell“, followed by “db.create_all”. This should create all the tables (specified within models.py) required for the project. (Backup SQL create commands have been added to the file).
 
-8. Inserting sample data should be simple, with SQL INSERT scripts listed within the document also. Although it is suggested you enter your own sample data using the UI from scratch.
+8. The flask project should now be executable, in which you can start entering data via the UI.
+
+9. Inserting data should be simple, however there are SQL INSERT scripts listed within the document as a fallback (Sample data).
+
+
 
 ------------------------------------- Application Architecture & Common Code Explained -------------------------------------
 
@@ -89,6 +93,9 @@ INSERT INTO [dbo].[UserRequest]
      VALUES
            (1, 1)
 GO
+
+
+
 
 -------------------------------------DB BACKUP CREATE SCRIPTS -------------------------------------
 As mentioned prior, you shouldn't need this, only in the event you aren't able to generate tables uisng SQLAlchemy.

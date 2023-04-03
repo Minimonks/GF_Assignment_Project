@@ -103,7 +103,13 @@ def createRequest():
 @main.route("/RequestDetails/<int:requestID>", methods=['GET', 'POST'])
 @login_required
 def requestDetails(requestID):
- 
+ requestUserID = db.session.query(UserRequest.UserID).filter_by(RequestId = requestID).scalar()
+
+#If the user is not an admin and tries to access a request they do not own.
+ if current_user.RoleID == 1:
+    if requestUserID != current_user.id:
+     return redirect(url_for('main.home'))
+    
  request = db.session.query(SoftwareRequest).filter_by(RequestID = requestID).first()
 
  form = RequestSoftwareForm()
@@ -112,8 +118,6 @@ def requestDetails(requestID):
  form.impact.data = request.RequestImpact
  form.deadline.data = request.RequestDeadline
  form.importance.data = request.RequestImportance
-
- requestUserID = db.session.query(UserRequest.UserID).filter_by(RequestId = requestID).scalar()
 
  requestUser = db.session.query(User).filter_by(id = requestUserID).scalar()
 
