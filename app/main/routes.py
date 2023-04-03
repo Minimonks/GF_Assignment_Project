@@ -105,20 +105,24 @@ def createRequest():
 def requestDetails(requestID):
  form = SoftwareDetailsForm()
  rq = db.session.query(SoftwareRequest).filter_by(RequestID = requestID).first()
+ userRequest = db.session.query(UserRequest).filter_by(RequestId = requestID).scalar()
+ requestUser = db.session.query(User).filter_by(id = userRequest.UserID).scalar()
  
  if request.method == "POST":
+
     if form.accept.data:
        print('Accepted')
        rq.RequestAccepted = True
        db.session.commit()
+       
        flash("Request Accepted. This should now be a backlog item.")
-       return redirect(url_for('main.home'))    
     elif form.reject.data:
          print('Rejected')
          rq.RequestAccepted = False
          db.session.commit()
+
+
          flash("Request Rejected.")
-         return redirect(url_for('main.home'))
     elif form.update.data:
          print('Updated')
          rq.RequestTitle = form.title.data
@@ -127,20 +131,23 @@ def requestDetails(requestID):
          rq.RequestDeadline = form.deadline.data
          rq.RequestImportance = form.importance.data
          db.session.commit()
+
+
          flash("Request Updated.")
-         return redirect(url_for('main.home'))
     else:
          print('Deleted')
-         
-         flash("Request Deleted.")
-         return redirect(url_for('main.home'))
+         db.session.delete(rq)
+         db.session.delete(userRequest)
+         db.session.commit()
 
+         flash("Request Deleted.")    
+  
+    return redirect(url_for('main.home'))
  else:
      print('Normal load')
-     requestUserID = db.session.query(UserRequest.UserID).filter_by(RequestId = requestID).scalar()
      
      if current_user.RoleID == 1:
-        if requestUserID != current_user.id:
+        if userRequest.UserID != current_user.id:
          return redirect(url_for('main.home'))
     
 
@@ -150,7 +157,6 @@ def requestDetails(requestID):
      form.deadline.data = rq.RequestDeadline
      form.importance.data = rq.RequestImportance
 
-     requestUser = db.session.query(User).filter_by(id = requestUserID).scalar()
 
      return render_template("requestDetails.html", rq=rq, form=form, requestUser=requestUser)
  
