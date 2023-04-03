@@ -6,13 +6,13 @@ GF Software Ticketing | Request Details
 {% endblock %}
 
 {% block page_content %}
-<h1>Request Details: {{request.RequestTitle}}</h1>
+<h1>Request Details: {{rq.RequestTitle}}</h1>
 <h2>Left by: {{requestUser.Username}}</h2>
 <br>
 
-{% if request.RequestAccepted is none %}
+{% if rq.RequestAccepted is none %}
     <div class="alert alert-warning">Request Pending</div>
-{% elif request.RequestAccepted %}
+{% elif rq.RequestAccepted %}
 <div class="alert alert-success">Request Accepted</div>
 {% else %}
 <div class="alert alert-danger">Request Rejected</div>
@@ -46,15 +46,17 @@ GF Software Ticketing | Request Details
       {{ form.importance(class_='form form-control') }}
     </div>
 
-    {% if request.RequestAccepted is none and requestUser.id == current_user.id %}
-    <button type="submit" class="btn btn-primary">Update Request</button>
-    <button type="submit" class="btn btn-danger">Delete Request</button>
+    {% if rq.RequestAccepted is none and requestUser.id == current_user.id %}
+    {{ form.update(class_='btn btn-primary') }}
+    {{ form.delete(class_='btn btn-danger') }}
     {% endif %}
 
 
-    {% if request.RequestAccepted is none and current_user.RoleID == 2 %}
-    <button type="submit" class="btn btn-success" style="float: right; margin-left: 5px;">Accept</button> 
-    <button type="submit" class="btn btn-danger" style="float: right;">Reject</button> 
+    {% if rq.RequestAccepted is none and current_user.RoleID == 2 %}
+
+    {{ form.accept(class_='btn btn-success', style='float: right; margin-left: 5px;') }}
+    {{ form.reject(class_='btn btn-danger', style='float: right;') }}
+    
     {% endif %}
   </form> 
 {% endblock %}

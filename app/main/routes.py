@@ -1,7 +1,7 @@
-from flask import Blueprint, flash, render_template,session,url_for,redirect
+from flask import Blueprint, flash, render_template,session,url_for,redirect, request
 from .. import db
 from ..models import User, SoftwareRequest, UserRequest
-from.forms import LoginForm, RequestAccountForm, RequestSoftwareForm
+from.forms import LoginForm, RequestAccountForm, RequestSoftwareForm, SoftwareDetailsForm
 from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -103,22 +103,55 @@ def createRequest():
 @main.route("/RequestDetails/<int:requestID>", methods=['GET', 'POST'])
 @login_required
 def requestDetails(requestID):
- requestUserID = db.session.query(UserRequest.UserID).filter_by(RequestId = requestID).scalar()
+ form = SoftwareDetailsForm()
+ rq = db.session.query(SoftwareRequest).filter_by(RequestID = requestID).first()
+ 
+ if request.method == "POST":
+    if form.accept.data:
+       print('Accepted')
+       rq.RequestAccepted = True
+       db.session.commit()
+       flash("Request Accepted. This should now be a backlog item.")
+       return redirect(url_for('main.home'))    
+    elif form.reject.data:
+         print('Rejected')
+         rq.RequestAccepted = False
+         db.session.commit()
+         flash("Request Rejected.")
+         return redirect(url_for('main.home'))
+    elif form.update.data:
+         print('Updated')
+         rq.RequestTitle = form.title.data
+         rq.RequestDetails = form.details.data
+         rq.RequestImpact = form.impact.data
+         rq.RequestDeadline = form.deadline.data
+         rq.RequestImportance = form.importance.data
+         db.session.commit()
+         flash("Request Updated.")
+         return redirect(url_for('main.home'))
+    else:
+         print('Deleted')
+         
+         flash("Request Deleted.")
+         return redirect(url_for('main.home'))
 
-#If the user is not an admin and tries to access a request they do not own.
- if current_user.RoleID == 1:
-    if requestUserID != current_user.id:
-     return redirect(url_for('main.home'))
+ else:
+     print('Normal load')
+     requestUserID = db.session.query(UserRequest.UserID).filter_by(RequestId = requestID).scalar()
+     
+     if current_user.RoleID == 1:
+        if requestUserID != current_user.id:
+         return redirect(url_for('main.home'))
     
- request = db.session.query(SoftwareRequest).filter_by(RequestID = requestID).first()
 
- form = RequestSoftwareForm()
- form.title.data = request.RequestTitle
- form.details.data = request.RequestDetails
- form.impact.data = request.RequestImpact
- form.deadline.data = request.RequestDeadline
- form.importance.data = request.RequestImportance
+     form.title.data = rq.RequestTitle
+     form.details.data = rq.RequestDetails
+     form.impact.data = rq.RequestImpact
+     form.deadline.data = rq.RequestDeadline
+     form.importance.data = rq.RequestImportance
 
- requestUser = db.session.query(User).filter_by(id = requestUserID).scalar()
+     requestUser = db.session.query(User).filter_by(id = requestUserID).scalar()
 
- return render_template("requestDetails.html", request=request, form=form, requestUser=requestUser)
+     return render_template("requestDetails.html", rq=rq, form=form, requestUser=requestUser)
+ 
+

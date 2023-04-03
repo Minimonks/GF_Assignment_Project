@@ -23,3 +23,14 @@ class RequestSoftwareForm(FlaskForm):
     deadline =  DateField('Due Date:', validators=[Optional()]) 
     importance = IntegerField('Importance', validators=[DataRequired(), NumberRange(min=0, max=5)]) 
     submit = SubmitField('Submit Request')
+
+class SoftwareDetailsForm(FlaskForm):
+    title = StringField('Request Title:', validators=[DataRequired(), Length(max=64)])
+    details = TextAreaField('Details:', validators=[DataRequired()])
+    impact =  TextAreaField('Impact:')      
+    deadline =  DateField('Due Date:', validators=[Optional()]) 
+    importance = IntegerField('Importance', validators=[DataRequired(), NumberRange(min=0, max=5)]) 
+    update = SubmitField('Update')
+    delete = SubmitField('Delete')
+    accept = SubmitField('Accept')
+    reject = SubmitField('Reject')
