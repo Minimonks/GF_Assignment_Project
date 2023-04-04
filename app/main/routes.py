@@ -157,7 +157,12 @@ def requestDetails(requestID):
      form.deadline.data = rq.RequestDeadline
      form.importance.data = rq.RequestImportance
 
+     disabledFields = False
 
-     return render_template("requestDetails.html", rq=rq, form=form, requestUser=requestUser)
+     if rq.RequestAccepted is not None:
+       disabledFields = True
+
+
+     return render_template("requestDetails.html", rq=rq, form=form, requestUser=requestUser, disabledFields=disabledFields)
  
 
