@@ -16,12 +16,12 @@ def login():
         if user:
             if check_password_hash(user.Password ,form.password.data):
                 login_user(user)
-                flash("Logged in.")
+                flash("Logged in.", "warning")
                 return redirect(url_for('main.home'))
             else:
-                flash("Wrong Password!")
+                flash("Wrong Password!", 'danger')
         else:
-            flash("No user found...")
+            flash("No user found...", 'danger')
 
     #GET
     if current_user.is_authenticated:    
@@ -34,7 +34,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash("Logged out.")
+    flash("Logged out.","warning")
     return redirect(url_for('main.login'))
 
 @main.route("/home/")
@@ -71,7 +71,7 @@ def reqAccount():
         user = User(Username = form.username.data, Email = form.email.data, Password = hashed_pw, RoleID = roleId)
         db.session.add(user)
         db.session.commit()
-        flash("Account Created")
+        flash("Account Created","success")
         return redirect(url_for('main.login'))
     
     if current_user.is_authenticated:    
@@ -95,7 +95,7 @@ def createRequest():
        db.session.add(userReq)
 
        db.session.commit()
-       flash("Request Created")
+       flash("Request Created","success")
        return redirect(url_for('main.home'))
 
     return render_template("createRequest.html", form=form)
@@ -115,14 +115,14 @@ def requestDetails(requestID):
        rq.RequestAccepted = True
        db.session.commit()
        
-       flash("Request Accepted. This should now be a backlog item.")
+       flash("Request Accepted. This should now be a backlog item.","success")
     elif form.reject.data:
          print('Rejected')
          rq.RequestAccepted = False
          db.session.commit()
 
 
-         flash("Request Rejected.")
+         flash("Request Rejected.","success")
     elif form.update.data:
          print('Updated')
          rq.RequestTitle = form.title.data
@@ -133,14 +133,14 @@ def requestDetails(requestID):
          db.session.commit()
 
 
-         flash("Request Updated.")
+         flash("Request Updated.","success")
     else:
          print('Deleted')
          db.session.delete(rq)
          db.session.delete(userRequest)
          db.session.commit()
 
-         flash("Request Deleted.")    
+         flash("Request Deleted.","success")    
   
     return redirect(url_for('main.home'))
  else:
