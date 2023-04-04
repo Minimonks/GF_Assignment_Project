@@ -41,14 +41,14 @@ def logout():
 @main.route("/home/<status>")
 @login_required
 def home(status=None): 
-    if current_user.RoleID == 1: #User
+    if current_user.RoleID ==  1: #User
         role="User"
         requests = (db.session.query(SoftwareRequest).join(UserRequest, SoftwareRequest.RequestID == UserRequest.RequestId).filter((UserRequest.UserID == current_user.id) & (SoftwareRequest.RequestAccepted == status)).all())
-        return render_template('index.html', role=role, requests=requests)
+        return render_template('index.html', role=role, requests=requests, status=status)
     else: #Admin
      role="Admin"               
      requests = SoftwareRequest.query.filter_by(RequestAccepted=status).all()
-     return render_template('index.html', role=role, requests=requests)
+     return render_template('index.html', role=role, requests=requests, status=status)
 
 
 @main.route("/about/")
