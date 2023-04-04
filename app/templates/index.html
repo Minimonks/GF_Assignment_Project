@@ -21,8 +21,8 @@
             
             <select name="status" id="status" onchange="location = this.value;">
                 <option value="{{ url_for('main.home') }}">Pending</option>
-                <option value="{{ url_for('main.home', status='accepted') }}">Accepted</option>
-                <option value="{{ url_for('main.home', status='rejected') }}">Rejected</option>
+                <option value="{{ url_for('main.home', status='1') }}">Accepted</option>
+                <option value="{{ url_for('main.home', status='0') }}">Rejected</option>
               </select>
      
     </div>

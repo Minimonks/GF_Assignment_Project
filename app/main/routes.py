@@ -40,22 +40,14 @@ def logout():
 @main.route("/home/")
 @main.route("/home/<status>")
 @login_required
-def home(status=None):
-    sts = None    
-    if status == 'accepted':
-       sts = 1
-    elif status == 'rejected':
-       sts = 0
-    else:
-       sts = None
-
-    if current_user.RoleID is 1: #User
+def home(status=None): 
+    if current_user.RoleID == 1: #User
         role="User"
-        requests = (db.session.query(SoftwareRequest).join(UserRequest, SoftwareRequest.RequestID == UserRequest.RequestId).filter((UserRequest.UserID == current_user.id) & (SoftwareRequest.RequestAccepted == sts)).all())
+        requests = (db.session.query(SoftwareRequest).join(UserRequest, SoftwareRequest.RequestID == UserRequest.RequestId).filter((UserRequest.UserID == current_user.id) & (SoftwareRequest.RequestAccepted == status)).all())
         return render_template('index.html', role=role, requests=requests)
     else: #Admin
      role="Admin"               
-     requests = SoftwareRequest.query.filter_by(RequestAccepted=sts).all()
+     requests = SoftwareRequest.query.filter_by(RequestAccepted=status).all()
      return render_template('index.html', role=role, requests=requests)
 
 
