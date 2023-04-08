@@ -18,7 +18,7 @@
 
 8. run the venv, and in terminal type in “flask shell“, followed by “db.create_all()”. This should create all the tables (specified within models.py) required for the project. (Backup SQL create commands have been added to the file).
 
-9. Insert data into the Roles table via SSMS:
+9. Insert data into the Roles table via SSMS: (This will have to be done on both Dev and Test)
 
 INSERT INTO [dbo].[Role]
            ([RoleName])
@@ -42,7 +42,27 @@ GO
 
 References for this code project can be found within app/__init__.py.
 
+As for the structure: This app follows a Flask Blueprint structure, allowing for better seperation of code.
 
+app/__init.py__ specifies the app settings when initialised on run.py. This makes references to config.py, specifiying to load with the Development configuration.
+
+config.py is where environment specific variables are specified, an example being alternating database connection strings.
+
+requirements.txt is a file listing all dependancies used within this application and can be used on initialisation to pre-install all requirements.
+
+app/main contains a series of files and folders:
+
+forms.py - wtforms templates used to generate HTML forms on specified views
+
+errors.py - a file dedicated to error handling and routes related to errors
+
+routes.py - the main routing file in which URLs are resolved to views with gathered data
+
+app/templates stores all the HTML views
+
+tests folder contains the Unit Test logic.
+
+vscode/launch.json specifies parameters required at launch of application.
 
 -------------------------------------DB SAMPLE DATA -------------------------------------
 WARNING: It is suggested you enter your own sample data using the UI from scratch to further ensure initialisation success.
