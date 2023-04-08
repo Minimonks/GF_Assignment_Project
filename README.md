@@ -38,7 +38,7 @@ GO
 
 
 
-------------------------------------- Application Architecture & Common Code Explained -------------------------------------
+------------------------------------- Application Architecture brief architecture explained -------------------------------------
 
 References for this code project can be found within app/__init__.py.
 
@@ -63,6 +63,8 @@ app/templates stores all the HTML views
 tests folder contains the Unit Test logic.
 
 vscode/launch.json specifies parameters required at launch of application.
+
+app/models.py is my SQLAlchemy classes, representing tables used to generate, manipulate and display all related to the database.
 
 -------------------------------------DB SAMPLE DATA -------------------------------------
 WARNING: It is suggested you enter your own sample data using the UI from scratch to further ensure initialisation success.
