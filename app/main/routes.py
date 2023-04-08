@@ -1,3 +1,8 @@
+#Main routes file for application. Managing url pathways and data to pass
+#When learning how to update I made refrence to (Elder, How To Update A Record In The Database - Flask Fridays #10 2021)
+#Flask Mitigation studies came from (Elder, How To Migrate Database With Flask - Flask Fridays #11 2021)
+#User login and password hashing came from (Elder, User Login with Flask_Login - Flask Fridays #22 2021), (Elder, Create A User Dashboard - Flask Fridays #23 2021), (Flask-SQLAlchemy, Login) and (Elder, Hashing Passwords With Werkzeug - Flask Fridays #13 2021)
+
 from flask import Blueprint, flash, render_template,session,url_for,redirect, request
 from .. import db
 from ..models import User, SoftwareRequest, UserRequest
@@ -11,6 +16,7 @@ main = Blueprint('main',__name__)
 @main.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+    #If there is a POST request, check if user exists, if so, if their password hash matches.
     if form.validate_on_submit():
         user = User.query.filter_by(Username=form.username.data).first()
         if user:
@@ -23,7 +29,7 @@ def login():
         else:
             flash("No user found...", 'danger')
 
-    #GET
+    #GET - If logged in, redirect to home...
     if current_user.is_authenticated:    
      return redirect(url_for('main.home'))
     else:
@@ -41,6 +47,7 @@ def logout():
 @main.route("/home/<status>")
 @login_required
 def home(status=None): 
+    #If the user is admin, show all requests releant to requested status. If user, only show their own requests.
     if current_user.RoleID ==  1: #User
         role="User"
         requests = (db.session.query(SoftwareRequest).join(UserRequest, SoftwareRequest.RequestID == UserRequest.RequestId).filter((UserRequest.UserID == current_user.id) & (SoftwareRequest.RequestAccepted == status)).all())
@@ -58,7 +65,7 @@ def about():
 @main.route("/RequestAccount/", methods=['GET', 'POST'])
 def reqAccount():
     form = RequestAccountForm()
-
+    #POST - creates user in DB with hashed password.
     if form.validate_on_submit():
         roleId = 2 if form.role.data else 1
 
@@ -70,6 +77,7 @@ def reqAccount():
         flash("Account Created","success")
         return redirect(url_for('main.login'))
     
+    #If user is logged in, they shouldn't be requesting account... redirect
     if current_user.is_authenticated:    
      return redirect(url_for('main.home'))
     else:
@@ -80,11 +88,12 @@ def reqAccount():
 def createRequest():
     
     form = RequestSoftwareForm()
-
+    #If all form data has been validated i.e. required fields filled, create request
     if form.validate_on_submit():
        softwareReq = SoftwareRequest(RequestTitle = form.title.data, RequestDetails = form.details.data, RequestImpact = form.impact.data, RequestDeadline = form.deadline.data, RequestImportance = form.importance.data )
        db.session.add(softwareReq)
 
+       #getting new request ID for population of UserRequest (linking current user to new request)
        reqId = db.session.query(db.func.max(SoftwareRequest.RequestID)).scalar()
 
        userReq = UserRequest(UserID=current_user.id, RequestId = reqId) 
@@ -105,7 +114,7 @@ def requestDetails(requestID):
  requestUser = db.session.query(User).filter_by(id = userRequest.UserID).scalar()
  
  if request.method == "POST":
-
+    #Identifying  on post, which button was clicked
     if form.accept.data:
        print('Accepted')
        rq.RequestAccepted = True
@@ -140,8 +149,9 @@ def requestDetails(requestID):
   
     return redirect(url_for('main.home'))
  else:
-     print('Normal load')
+    #  print('Normal load')
      
+     #If the current user is NOT an admin, and tried to access a request other than their own... redirect.
      if current_user.RoleID == 1:
         if userRequest.UserID != current_user.id:
          return redirect(url_for('main.home'))
@@ -154,11 +164,11 @@ def requestDetails(requestID):
      form.importance.data = rq.RequestImportance
 
      disabledFields = False
-
+     #If the request has been rejected/accepted, the user cannot update it. Also if the user did not make the request, they cannot update it. (Disables Fields)
      if rq.RequestAccepted is not None or userRequest.UserID != current_user.id:
        disabledFields = True
 
-     print(disabledFields)
+    #  print(disabledFields)
      return render_template("requestDetails.html", rq=rq, form=form, requestUser=requestUser, disabledFields=disabledFields)
  
 

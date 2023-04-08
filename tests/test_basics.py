@@ -4,6 +4,7 @@ from app import create_app, db
 
 
 class BasicsTestCase(unittest.TestCase):
+    
     def setUp(self):
         self.app = create_app('testing')
         self.app_context = self.app.app_context()
@@ -15,9 +16,11 @@ class BasicsTestCase(unittest.TestCase):
         db.drop_all()
         self.app_context.pop()
 
+    
     def test_app_exists(self):
         self.assertFalse(current_app is None)
 
+    #Test the app is able to initialise with test configuration
     def test_app_is_test(self):
         self.assertTrue(current_app.config['TESTING'])
     

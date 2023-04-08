@@ -1,3 +1,5 @@
+#Forms here used to generate html forms within views.
+
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, BooleanField, DateField, IntegerField, TextAreaField
 from wtforms.validators import DataRequired, EqualTo, Length, Optional, NumberRange

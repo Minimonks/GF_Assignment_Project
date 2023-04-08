@@ -40,7 +40,9 @@ GO
 
 ------------------------------------- Application Architecture & Common Code Explained -------------------------------------
 
-TODO
+References for this code project can be found within app/__init__.py.
+
+
 
 -------------------------------------DB SAMPLE DATA -------------------------------------
 WARNING: It is suggested you enter your own sample data using the UI from scratch to further ensure initialisation success.

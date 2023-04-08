@@ -1,8 +1,11 @@
+#Defining "Models" (Tables)
+#To do this I made reference to both (Flask-SQLAlchemy, Declaring models) and (GRINBERG, 2018)
+
 from . import db
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
-#Defining "Models" (Tables)
+#Table to store user roles i.e. User, Admin
 class Role(db.Model): 
     __tablename__ = 'Role' 
     RoleID = db.Column(db.Integer, primary_key=True, nullable=False) 
@@ -12,7 +15,8 @@ class Role(db.Model):
     
     def __repr__(self): 
         return '<Role %r>' % self.RoleName 
-        
+
+#Table to store relevant user details. Limit of 4 tables, means user can only hold one role. In future could refactor to allow for multiple roles.        
 class User(db.Model, UserMixin): 
     __tablename__ = 'User' 
     id = db.Column(db.Integer, primary_key=True, nullable=False) 
@@ -36,7 +40,8 @@ class User(db.Model, UserMixin):
 
     def __repr__(self): 
        return '<User %r>' % self.Username
-    
+
+#Table to store software request details
 class SoftwareRequest(db.Model):
     __tablename__ = 'SoftwareRequest' 
     RequestID = db.Column(db.Integer, primary_key=True)
@@ -51,7 +56,8 @@ class SoftwareRequest(db.Model):
 
     def __repr__(self): 
        return '<SoftwareRequest %r>' % self.RequestTitle
-    
+
+#Table established to link users to the requests they make  
 class UserRequest(db.Model):
     __tablename__ = 'UserRequest' 
     UserID = db.Column(db.Integer, db.ForeignKey('User.id') ,primary_key=True, nullable=False)
