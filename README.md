@@ -12,13 +12,29 @@
 
 5. Go to the create pallete and select create virtual environment (.venv) and check box for requirements.txt to install app dependancies. This should install all you need, dependancies listed in requirements.txt if not.
 
-6. Within config.py, adjust the connection string to match the details of your DB. (SQLALCHEMY_DATABASE_URI)
+6. Create both a Development DB and a Testing DB (if you wish for the unit tests to work) within SSMS.
 
-7. run the venv, and in terminal type in “flask shell“, followed by “db.create_all”. This should create all the tables (specified within models.py) required for the project. (Backup SQL create commands have been added to the file).
+7. Within config.py, adjust the connection strings to match the details of your databases (Development to your DevDB and Testing to your TestDB). (SQLALCHEMY_DATABASE_URI)
 
-8. The flask project should now be executable, in which you can start entering data via the UI.
+8. run the venv, and in terminal type in “flask shell“, followed by “db.create_all()”. This should create all the tables (specified within models.py) required for the project. (Backup SQL create commands have been added to the file).
 
-9. Inserting data should be simple, however there are SQL INSERT scripts listed within the document as a fallback (Sample data).
+9. Insert data into the Roles table via SSMS:
+
+INSERT INTO [dbo].[Role]
+           ([RoleName])
+     VALUES
+           ('User')
+GO
+
+INSERT INTO [dbo].[Role]
+           ([RoleName])
+     VALUES
+           ('Admin')
+GO
+
+10. The flask project should now be executable, in which you can start entering data via the UI.
+
+11. Inserting data should be simple, however there are SQL INSERT scripts listed within the document as a fallback (Sample data).
 
 
 

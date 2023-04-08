@@ -13,7 +13,7 @@ class Development(Config):
 
 class Testing(Config):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = ''
+    SQLALCHEMY_DATABASE_URI = 'mssql+pyodbc://:@(LocalDB)\GeorgesLocalDB/GeorgeAssignmentTestDB?driver=ODBC+Driver+17+for+SQL+Server&Trusted_Connection=yes'
 
 config = {
     'development': Development,
