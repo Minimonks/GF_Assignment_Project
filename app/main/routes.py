@@ -155,10 +155,10 @@ def requestDetails(requestID):
 
      disabledFields = False
 
-     if rq.RequestAccepted is not None:
+     if rq.RequestAccepted is not None or userRequest.UserID != current_user.id:
        disabledFields = True
 
-
+     print(disabledFields)
      return render_template("requestDetails.html", rq=rq, form=form, requestUser=requestUser, disabledFields=disabledFields)
  
 

@@ -23,27 +23,27 @@ GF Software Ticketing | Request Details
 
     <div class="form-group">
       <label for="{{ form.title.id }}">Request Title:</label>
-      {{ form.title(class_='form form-control', disabled=disabledField) }}
+      {{ form.title(class_='form form-control', disabled=disabledFields) }}
     </div>
 
     <div class="form-group">
       <label for="{{ form.details.id }}">Request Details:</label>
-      {{ form.details(class_='form form-control', disabled=disabledField, style='resize: vertical;') }}
+      {{ form.details(class_='form form-control', disabled=disabledFields, style='resize: vertical;') }}
     </div>
 
     <div class="form-group">
       <label for="{{ form.impact.id }}">Request Impact:</label>
-      {{ form.impact(class_='form form-control', disabled=disabledField, style='resize: vertical;') }}
+      {{ form.impact(class_='form form-control', disabled=disabledFields, style='resize: vertical;') }}
     </div>
 
     <div class="form-group">
       <label for="{{ form.deadline.id }}">Request Deadline:</label>
-      {{ form.deadline(class_='form form-control', disabled=disabledField) }}
+      {{ form.deadline(class_='form form-control', disabled=disabledFields) }}
     </div>
 
     <div class="form-group">
       <label for="{{ form.importance.id }}">Request Importance:</label>
-      {{ form.importance(class_='form form-control', disabled=disabledField) }}
+      {{ form.importance(class_='form form-control', disabled=disabledFields) }}
     </div>
 
     {% if rq.RequestAccepted is none and requestUser.id == current_user.id %}
