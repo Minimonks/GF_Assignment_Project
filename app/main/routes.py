@@ -30,7 +30,7 @@ def login():
             flash("No user found...", 'danger')
 
     #GET - If logged in, redirect to home...
-    if current_user.is_authenticated:    
+    if current_user.is_authenticated:
      return redirect(url_for('main.home'))
     else:
      return render_template('login.html', form=form)

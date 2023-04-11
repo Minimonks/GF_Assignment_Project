@@ -2,7 +2,9 @@ import unittest
 from flask import current_app,url_for
 from app import create_app, db
 import run
-
+from werkzeug.security import generate_password_hash, check_password_hash
+from app.models import User, Role
+from flask_login import current_user, login_user
 
 class BasicsTestCase(unittest.TestCase):
     
@@ -11,7 +13,16 @@ class BasicsTestCase(unittest.TestCase):
         self.app_context = self.app.app_context()
         self.app_context.push()
         db.create_all()
-        self.client = self.app.test_client()
+
+        self.userRole = Role(RoleName = "User")
+        self.adminRole = Role(RoleName = "Admin")
+        db.session.add(self.userRole)
+        db.session.add(self.adminRole)
+
+        self.client = self.app.test_client()    
+
+        db.session.commit()        
+  
 
     def tearDown(self):
         db.session.remove()
@@ -30,6 +41,23 @@ class BasicsTestCase(unittest.TestCase):
     def test_about_loads(self):
          response = self.client.get('/about/')
          self.assertEqual(response.status_code, 200)
+
+    #Tests that a user is able to log in
+    def test_user_login(self):
+     user = User(Username='testUser', Password=generate_password_hash('testPassword'), Email='Test@Test.co.uk', RoleID=1)
+     db.session.add(user)
+     db.session.commit()
+
+     with self.app.test_request_context():
+         login_user(user)
+        
+         response = self.client.post('/login', data={
+            'username': 'testUser',
+            'password': 'testPassword',
+         }, follow_redirects=True)
+         self.assertEqual(response.status_code, 200)
+         self.assertTrue(current_user.is_authenticated)
+         self.assertTrue(check_password_hash(user.Password, 'testPassword'))
         
     
  
