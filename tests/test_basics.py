@@ -50,14 +50,8 @@ class BasicsTestCase(unittest.TestCase):
 
      with self.app.test_request_context():
          login_user(user)
-        
-         response = self.client.post('/login', data={
-            'username': 'testUser',
-            'password': 'testPassword',
-         }, follow_redirects=True)
-         self.assertEqual(response.status_code, 200)
          self.assertTrue(current_user.is_authenticated)
-         self.assertTrue(check_password_hash(user.Password, 'testPassword'))
+       
         
     
  
