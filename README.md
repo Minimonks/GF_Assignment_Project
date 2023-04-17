@@ -2,23 +2,26 @@
 
 ------------------------------------- Step-by-step guide -------------------------------------
 
-1. An appropriate IDE is required (VSCode as an example).
+1. An appropriate IDE is required (VSCode as an example, found here: https://code.visualstudio.com/Download).
 
-2. Download latest release off of the Github Repository
+2. Download latest release off of the Github Repository, found here (Under releases): https://github.com/Minimonks/GF_Assignment_Project 
 
-3. Extract contents into desired filepath.
+3. Extract contents of the downloaded ZIP file into your desired filepath.
 
 4. Open folder with VSCode.
 
-5. Go to the create pallete and select create virtual environment (.venv) and check box for requirements.txt to install app dependancies. This should install all you need, dependancies listed in requirements.txt if not.
+5. Go to the View > Command Pallete and select create virtual environment (.venv) and check box for requirements.txt to install app dependancies. This should install all you need, dependancies listed in requirements.txt if not. A guide can be seen here: https://code.visualstudio.com/docs/python/environments 
 
-6. Create both a Development DB and a Testing DB (if you wish for the unit tests to work) within SSMS.
+6. SSMS (Microsoft SQL Server Management Studio) is the required DB (Database) software for this application and can be downloaded here: https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16 
 
-7. Within config.py, adjust the connection strings to match the details of your databases (Development to your DevDB and Testing to your TestDB). (SQLALCHEMY_DATABASE_URI)
+7. Create both a Development DB and a Testing DB (if you wish for the unit tests to work) within SSMS.
 
-8. run the venv, and in terminal type in “flask shell“, followed by “db.create_all()”. This should create all the tables (specified within models.py) required for the project. (Backup SQL create commands have been added to the file).
+8. Within config.py, adjust the connection strings to match the details of your databases (Development to your DevDB and Testing to your TestDB). (SQLALCHEMY_DATABASE_URI). Sample connection strings have been left populated... change "GeorgesLocalDB" to the name of your
+DB, and "GFAssignmentDB" to the name of your table.
 
-9. Insert data into the Roles table via SSMS: (This will have to be done on both Dev and Test)
+9. run the venv (virtual environment), and in terminal type in “flask shell“, followed by “db.create_all()”. This should create all the tables (specified within models.py) required for the project. (Backup SQL create commands have been added to the file).
+
+10. Open a new query under your new database and insert data into the Roles table via SSMS: (This will have to be done on both Dev and Test)
 
 INSERT INTO [dbo].[Role]
            ([RoleName])
@@ -32,9 +35,9 @@ INSERT INTO [dbo].[Role]
            ('Admin')
 GO
 
-10. The flask project should now be executable, in which you can start entering data via the UI.
+11. The flask project should now be executable, in which you can start entering data via the UI.
 
-11. Inserting data should be simple, however there are SQL INSERT scripts listed within the document as a fallback (Sample data).
+12. Inserting data should be simple, however there are SQL INSERT scripts listed within the document as a fallback (Sample data).
 
 
 
@@ -65,6 +68,42 @@ tests folder contains the Unit Test logic.
 vscode/launch.json specifies parameters required at launch of application.
 
 app/models.py is my SQLAlchemy classes, representing tables used to generate, manipulate and display all related to the database.
+
+------------------------------------- DEPENDANCIES -------------------------------------
+As listed in requirements.txt, here are my dependancies: (I will explain the use of each here where appropriate)
+alembic==1.9.4
+click==8.1.3
+colorama==0.4.6
+dominate==2.7.0
+Flask==2.2.2
+
+Flask-Bootstrap==3.3.7.1 - Styling within the system, applied to the template to create a stylised UI such as the navigation menu.
+
+Flask-Login==0.6.2 - Used for login management within the system
+
+Flask-Migrate==4.0.4 - Used to track modifications made to the DB via SQLAlchemy objects, making updating the DB easier.
+
+Flask-SQLAlchemy==3.0.3
+Flask-WTF==1.1.1
+greenlet==2.0.2
+itsdangerous==2.1.2
+
+Jinja2==3.1.2 - Engine allowing me to manipulate HTML templates within the program.
+
+Mako==1.2.4
+MarkupSafe==2.1.2
+pyodbc==4.0.35
+python-dotenv==1.0.0
+
+SQLAlchemy==2.0.3 - Used to manipulate the database tables through classes in the code. Backbone for all CRUD operations.
+
+typing_extensions==4.4.0
+visitor==0.1.3
+
+Werkzeug==2.2.2 - Security features used here for hashing passwords
+
+WTForms==3.0.1 - Class based coding to generate HTML forms for pages such as login, software request, etc...
+
 
 -------------------------------------DB SAMPLE DATA -------------------------------------
 WARNING: It is suggested you enter your own sample data using the UI from scratch to further ensure initialisation success.
