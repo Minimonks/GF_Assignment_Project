@@ -42,7 +42,7 @@ class BasicsTestCase(unittest.TestCase):
          response = self.client.get('/about/')
          self.assertEqual(response.status_code, 200)
 
-    #Tests that a user is able to log in
+    #Tests that a user is able to log in - however doesnt test the page itself... tried doing this to no avail
     def test_user_login(self):
      user = User(Username='testUser', Password=generate_password_hash('testPassword'), Email='Test@Test.co.uk', RoleID=1)
      db.session.add(user)
@@ -51,7 +51,7 @@ class BasicsTestCase(unittest.TestCase):
      with self.app.test_request_context():
          login_user(user)
          self.assertTrue(current_user.is_authenticated)
-       
-        
+
+   
     
  
