@@ -48,6 +48,9 @@ class BasicsTestCase(unittest.TestCase):
      db.session.add(user)
      db.session.commit()
 
+    #  response = self.client.post('/login', data={'username':'testUser','password':'testPassword'}, follow_redirects=True)
+    #  self.assertEqual(response.status_code, 200)
+
      with self.app.test_request_context():
          login_user(user)
          self.assertTrue(current_user.is_authenticated)
