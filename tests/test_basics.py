@@ -55,6 +55,17 @@ class BasicsTestCase(unittest.TestCase):
          login_user(user)
          self.assertTrue(current_user.is_authenticated)
 
+
+    # Tests that login form is safe against SQL injection
+    def test_login_form(self):
+        # Test with valid credentials
+        response = self.client.post('/login', data={'username':'testUser','password':'testPassword'}, follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+
+        # Test with SQL injection attempt
+        response = self.client.post('/login', data={'username':'testUser\' OR 1=1 --','password':'testPassword'}, follow_redirects=True)
+        self.assertNotEqual(response.status_code, 200)
+
    
     
  
