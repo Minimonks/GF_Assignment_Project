@@ -4,7 +4,7 @@ import os
 class Config(object):
     TESTING = False
     DEBUG = False
-    SECRET_KEY = os.getenv('SECRET_KEY')
+    SECRET_KEY = os.getenv('APP_SECRET_KEY')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
 class Development(Config):
