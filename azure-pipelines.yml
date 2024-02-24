@@ -25,8 +25,15 @@ steps:
   displayName: 'Install dependencies'
 
 - script: |
-    echo $(DBDev)
-    echo $(DBTest)
+    echo DBDev: $DBDev
+    echo DBTest: $DBTest
+    echo FLASK_DEBUG: $FLASK_DEBUG
+    echo APP_SECRET_KEY: $APP_SECRET_KEY
+  env:
+    DBDev: $(DBDev)
+    DBTest: $(DBTest)
+    FLASK_DEBUG: $(FLASK_DEBUG)
+    APP_SECRET_KEY: $(APP_SECRET_KEY)
   displayName: 'Print environment variables'
 
 - script: |
