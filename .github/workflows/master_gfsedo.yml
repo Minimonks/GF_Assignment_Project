@@ -31,8 +31,8 @@ jobs:
         env:
           FLASK_DEBUG: ${{ secrets.FLASK_DEBUG }}
           APP_SECRET_KEY: ${{ secrets.APP_SECRET_KEY }}
-          DBDev: ${{ secrets.DBDev }}
-          DBTest: ${{ secrets.DBTest }}
+          DBDev: ${{ secrets.DBDEV }}
+          DBTest: ${{ secrets.DBTEST }}
 
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
