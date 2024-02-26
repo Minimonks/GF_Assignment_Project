@@ -26,14 +26,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run tests
-        run: python -m unittest tests/test_basics.py
-        env:
-          FLASK_DEBUG: ${{ secrets.FLASK_DEBUG }}
-          APP_SECRET_KEY: ${{ secrets.APP_SECRET_KEY }}
-          DBDev: ${{ secrets.DBDEV }}
-          DBTest: ${{ secrets.DBTEST }}
-
+     
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
 
@@ -44,7 +37,18 @@ jobs:
           path: |
             release.zip
             !venv/
-
+  test:
+    environment:
+        name: 'Production'
+        url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+        - name: Run tests
+        
+        run: python -m unittest tests/test_basics.py
+        env:
+          FLASK_DEBUG: ${{ secrets.FLASK_DEBUG }}
+          APP_SECRET_KEY: ${{ secrets.APP_SECRET_KEY }}
+          DBDev: ${{ secrets.DBDev }}
+          DBTest: ${{ secrets.DBTest }}
   deploy:
     runs-on: ubuntu-latest
     needs: build
