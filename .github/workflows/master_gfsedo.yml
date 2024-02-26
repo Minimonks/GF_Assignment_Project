@@ -42,7 +42,7 @@ jobs:
     needs: build
     environment:
       name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+      url: gfsedo.azurewebsites.net
     steps:
       - name: Run tests
         run: python -m unittest tests/test_basics.py
@@ -57,7 +57,7 @@ jobs:
     needs: [build, test]
     environment:
       name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+      url: gfsedo.azurewebsites.net
     
     steps:
       - name: Download artifact from build job
