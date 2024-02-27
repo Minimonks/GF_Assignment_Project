@@ -42,7 +42,6 @@ jobs:
     needs: build
     environment:
       name: 'Production'
-      url: gfsedo.azurewebsites.net
     steps:
       - name: Run tests
         run: python -m unittest GF_ASSIGNMENT_PROJECT/tests/test_basics.py
@@ -57,7 +56,7 @@ jobs:
     needs: [build, test]
     environment:
       name: 'Production'
-      url: gfsedo.azurewebsites.net
+      url: https://gfsedo.azurewebsites.net/
     
     steps:
       - name: Download artifact from build job
