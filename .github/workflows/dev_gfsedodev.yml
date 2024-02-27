@@ -47,8 +47,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+      name: 'Development'
+      url: https://gfsedodev.azurewebsites.net
     
     steps:
       - name: Download artifact from build job
