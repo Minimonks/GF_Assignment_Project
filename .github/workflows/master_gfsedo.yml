@@ -42,9 +42,10 @@ jobs:
     needs: build
     environment:
       name: 'Production'
+      url: https://gfsedo.azurewebsites.net/
     steps:
       - name: Run tests
-        run: python -m unittest GF_ASSIGNMENT_PROJECT/tests/test_basics.py
+        run: python -m unittest tests/test_basics.py
         env:
           FLASK_DEBUG: ${{ secrets.FLASK_DEBUG }}
           APP_SECRET_KEY: ${{ secrets.APP_SECRET_KEY }}
