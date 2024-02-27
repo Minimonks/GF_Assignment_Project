@@ -57,7 +57,7 @@ jobs:
           python -m venv venv
           source venv/bin/activate
           pip install -r requirements.txt
-          pytest tests/test_basics.py
+          unittest tests/test_basics.py
         env:
           FLASK_DEBUG: ${{ secrets.FLASK_DEBUG }}
           APP_SECRET_KEY: ${{ secrets.APP_SECRET_KEY }}
