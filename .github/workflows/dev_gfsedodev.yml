@@ -46,7 +46,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'Production'
+      name: 'Development'
       url: https://gfsedo.azurewebsites.net/
     steps:
       - uses: actions/checkout@v4
