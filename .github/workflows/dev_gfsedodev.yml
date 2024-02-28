@@ -42,7 +42,32 @@ jobs:
           path: |
             release.zip
             !venv/
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'Production'
+      url: https://gfsedo.azurewebsites.net/
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python version
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.11'
 
+
+      - name: Run tests
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install -r requirements.txt
+          python -m unittest tests.DevTests
+        env:
+          FLASK_DEBUG: ${{ secrets.FLASK_DEBUG }}
+          APP_SECRET_KEY: ${{ secrets.APP_SECRET_KEY }}
+          DBDev: ${{ secrets.DBDev }}
+          DBTest: ${{ secrets.DBTest }}
+          ServerName: ${{ secrets.ServerName }}
   deploy:
     runs-on: ubuntu-latest
     needs: build
