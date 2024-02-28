@@ -6,8 +6,6 @@ import run
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.models import User, Role
 from flask_login import current_user, login_user
-from flask import url_for
-from flask_login import current_user
 from urllib.parse import urlparse
 
 class BasicsTestCase(unittest.TestCase):
@@ -26,6 +24,8 @@ class BasicsTestCase(unittest.TestCase):
         print("Routes:")
         for rule in self.app.url_map.iter_rules():
             print(rule)
+
+        print("Generated URL for 'about':", url_for('main.about'))
 
         self.userRole = Role(RoleName = "User")
         self.adminRole = Role(RoleName = "Admin")
