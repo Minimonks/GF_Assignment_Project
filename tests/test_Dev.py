@@ -19,6 +19,14 @@ class BasicsTestCase(unittest.TestCase):
         self.app_context.push()
         db.create_all()
 
+        # Print out the server name
+        print("Server name:", self.app.config['SERVER_NAME'])
+
+        # Print out the available routes
+        print("Routes:")
+        for rule in self.app.url_map.iter_rules():
+            print(rule)
+
         self.userRole = Role(RoleName = "User")
         self.adminRole = Role(RoleName = "Admin")
         db.session.add(self.userRole)
