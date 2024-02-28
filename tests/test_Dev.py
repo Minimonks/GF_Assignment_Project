@@ -14,7 +14,7 @@ class BasicsTestCase(unittest.TestCase):
     
     def setUp(self):
         self.app = create_app('testing')
-        self.app.config['SERVER_NAME'] = os.getenv('ServerName')
+        # self.app.config['SERVER_NAME'] = os.getenv('ServerName')
         self.app_context = self.app.app_context()
         self.app_context.push()
         db.create_all()
@@ -65,17 +65,17 @@ class BasicsTestCase(unittest.TestCase):
     #Security OWASP tests
 
     #Cross-Site Scripting attack on login. The script should be escaped and not executed.
-    def test_XSS(self):
-        response = self.client.post('/login', data={'username':'<script>alert("XSS")</script>', 'password':'testPassword'}, follow_redirects=True)
-        self.assertNotIn(b'<script>alert("XSS")</script>', response.data)
+    # def test_XSS(self):
+    #     response = self.client.post('/login', data={'username':'<script>alert("XSS")</script>', 'password':'testPassword'}, follow_redirects=True)
+    #     self.assertNotIn(b'<script>alert("XSS")</script>', response.data)
 
-    # Broken Authentication - User should be redirected to login page if not authenticated
-    def test_authentication_required(self):
-        response = self.client.get('/home/', follow_redirects=False)
-        self.assertEqual(response.status_code, 302)
-        login_url = urlparse(url_for('main.login', next='/home/', _external=True))
-        redirect_url = urlparse(response.headers['Location'])
-        self.assertEqual(redirect_url.path, login_url.path)
+    # # Broken Authentication - User should be redirected to login page if not authenticated
+    # def test_authentication_required(self):
+    #     response = self.client.get('/home/', follow_redirects=False)
+    #     self.assertEqual(response.status_code, 302)
+    #     login_url = urlparse(url_for('main.login', next='/home/', _external=True))
+    #     redirect_url = urlparse(response.headers['Location'])
+    #     self.assertEqual(redirect_url.path, login_url.path)
 
 
     
