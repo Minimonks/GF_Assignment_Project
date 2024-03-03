@@ -25,9 +25,9 @@ def login():
                 flash("Logged in.", "warning")
                 return redirect(url_for('main.home'))
             else:
-                flash("Wrong Password!", 'danger')
+                flash("Incorrect credentials!", 'danger')
         else:
-            flash("No user found...", 'danger')
+            flash("Incorrect credentials", 'danger')
 
     #GET - If logged in, redirect to home...
     if current_user.is_authenticated:
