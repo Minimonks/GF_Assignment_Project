@@ -28,6 +28,7 @@ from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from flask_sslify import SSLify
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
@@ -37,6 +38,8 @@ login_manager = LoginManager()
 def create_app(app_config = 'development'):
     app = Flask(__name__)
     app.config.from_object(config[app_config])
+
+    sslify = SSLify(app)
 
     bootstrap.init_app(app)
     db.init_app(app)
