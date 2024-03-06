@@ -9,11 +9,13 @@ from ..models import User, SoftwareRequest, UserRequest
 from.forms import LoginForm, RequestAccountForm, RequestSoftwareForm, SoftwareDetailsForm
 from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from app import limiter
 
 main = Blueprint('main',__name__)
 
 @main.route('/', methods=['GET', 'POST'])
 @main.route('/login', methods=['GET', 'POST'])
+@limiter.limit("5 per minute", error_message="Too many requests, please try again later.")
 def login():
     form = LoginForm()
     #If there is a POST request, check if user exists, if so, if their password hash matches.
