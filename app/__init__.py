@@ -39,24 +39,24 @@ login_manager = LoginManager()
 app = Flask(__name__)
 limiter = Limiter(get_remote_address, app=app, default_limits=["200 per day"])
 
-
 def create_app(app_config = 'development'):
-
+    app1 = app
+    
     #limiter = Limiter(app=app, key_func=get_remote_address)
 
-    app.config.from_object(config[app_config])
+    app1.config.from_object(config[app_config])
 
-    sslify = SSLify(app)
+    sslify = SSLify(app1)
 
-    bootstrap.init_app(app)
-    db.init_app(app)
-    migrate = Migrate(app, db)
+    bootstrap.init_app(app1)
+    db.init_app(app1)
+    migrate = Migrate(app1, db)
 
-    login_manager.init_app(app)
+    login_manager.init_app(app1)
     login_manager.login_view = 'main.login'
     
     from app.main.routes import main
 
-    app.register_blueprint(main)
+    app1.register_blueprint(main)
     
-    return app
+    return app1
