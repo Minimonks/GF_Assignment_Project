@@ -30,12 +30,14 @@ from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_sslify import SSLify
 
-# from flask_limiter import Limiter
-# from flask_limiter.util import get_remote_address
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
 login_manager = LoginManager()
+limiter = Limiter(key_func=get_remote_address)
+
 # app = Flask(__name__)
 # limiter = Limiter(get_remote_address, app=app, default_limits=["200 per day"])
 
@@ -47,6 +49,9 @@ def create_app(app_config = 'development'):
     bootstrap.init_app(app)
     db.init_app(app)
     migrate = Migrate(app, db)
+    limiter.init_app(app)
+    #limiter = Limiter(get_remote_address, app=app, default_limits=["200 per day"])
+    
 
     login_manager.init_app(app)
     login_manager.login_view = 'main.login'

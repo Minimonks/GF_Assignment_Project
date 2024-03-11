@@ -78,7 +78,7 @@ class BasicsTestCase(unittest.TestCase):
         response = self.client.post('/login', data={'username':'<script>alert("XSS")</script>', 'password':'testPassword'}, follow_redirects=True)
         self.assertNotIn(b'<script>alert("XSS")</script>', response.data)
 
-    # Broken Authentication - User should be redirected to login page if not authenticated
+    # Broken Access Control - User should be redirected to login page if not authenticated
     def test_authentication_required(self):
         response = self.client.get('/home/', follow_redirects=False)
         self.assertEqual(response.status_code, 302)
