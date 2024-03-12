@@ -20,6 +20,7 @@ def login():
     form = LoginForm()
     #If there is a POST request, check if user exists, if so, if their password hash matches.
     if form.validate_on_submit():
+        form.sanitise()
         user = User.query.filter_by(Username=form.username.data).first()
         if user:
             if check_password_hash(user.Password ,form.password.data):
@@ -69,6 +70,7 @@ def reqAccount():
     form = RequestAccountForm()
     #POST - creates user in DB with hashed password.
     if form.validate_on_submit():
+        form.sanitise()
         roleId = 2 if form.role.data else 1
 
         hashed_pw = generate_password_hash(form.password.data, "sha256")
@@ -134,6 +136,7 @@ def requestDetails(requestID):
          flash("Request Rejected.","success")
     elif form.update.data:
          print('Updated')
+         form.sanitise()
          rq.RequestTitle = form.title.data
          rq.RequestDetails = form.details.data
          rq.RequestImpact = form.impact.data

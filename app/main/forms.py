@@ -12,6 +12,9 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password:',  validators=[DataRequired()])
     submit = SubmitField('Login')
 
+    def sanitise(self):
+      self.username.data = escape(self.username.data)
+
 class RequestAccountForm(FlaskForm):
     username = StringField('Username:', validators=[DataRequired()])
     email = StringField('Email:', validators=[DataRequired()]) #, Email()
@@ -19,6 +22,10 @@ class RequestAccountForm(FlaskForm):
     confirmPassword = PasswordField('Confirm Password:', validators=[DataRequired()])
     role = BooleanField('Admin Account') #May be more roles in future ofc... but now... only admin/user
     submit = SubmitField('Request Account')
+
+    def sanitise(self):
+      self.username.data = escape(self.username.data)
+      self.email.data = escape(self.email.data)
 
 class RequestSoftwareForm(FlaskForm):
     title = StringField('Request Title:', validators=[DataRequired(), Length(max=64)])
@@ -43,5 +50,10 @@ class SoftwareDetailsForm(FlaskForm):
     delete = SubmitField('Delete')
     accept = SubmitField('Accept')
     reject = SubmitField('Reject')
+
+    def sanitise(self):
+        self.title.data = escape(self.title.data)
+        self.details.data = escape(self.details.data)
+        self.impact.data = escape(self.impact.data)
 
   
