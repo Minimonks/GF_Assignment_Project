@@ -90,8 +90,10 @@ def reqAccount():
 def createRequest():
     
     form = RequestSoftwareForm()
+
     #If all form data has been validated i.e. required fields filled, create request
     if form.validate_on_submit():
+       form.sanitise()
        softwareReq = SoftwareRequest(RequestTitle = form.title.data, RequestDetails = form.details.data, RequestImpact = form.impact.data, RequestDeadline = form.deadline.data, RequestImportance = form.importance.data )
        db.session.add(softwareReq)
 

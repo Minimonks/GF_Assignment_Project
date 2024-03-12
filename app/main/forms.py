@@ -3,6 +3,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, BooleanField, DateField, IntegerField, TextAreaField
 from wtforms.validators import DataRequired, EqualTo, Length, Optional, NumberRange, regexp
+from flask import escape
 import re
 
 
@@ -26,6 +27,11 @@ class RequestSoftwareForm(FlaskForm):
     deadline =  DateField('Due Date:', validators=[Optional()]) 
     importance = IntegerField('Importance', validators=[DataRequired(), NumberRange(min=0, max=5)]) 
     submit = SubmitField('Submit Request')
+    
+    def sanitise(self):
+      self.title.data = escape(self.title.data)
+      self.details.data = escape(self.details.data)
+      self.impact.data = escape(self.impact.data)
 
 class SoftwareDetailsForm(FlaskForm):
     title = StringField('Request Title:', validators=[DataRequired(), Length(max=64)])
@@ -37,3 +43,5 @@ class SoftwareDetailsForm(FlaskForm):
     delete = SubmitField('Delete')
     accept = SubmitField('Accept')
     reject = SubmitField('Reject')
+
+  
