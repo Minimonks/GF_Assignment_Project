@@ -36,11 +36,7 @@ from flask_limiter.util import get_remote_address
 bootstrap = Bootstrap()
 db = SQLAlchemy()
 login_manager = LoginManager()
-limiter = Limiter(key_func=get_remote_address)
-
-# app = Flask(__name__)
-# limiter = Limiter(get_remote_address, app=app, default_limits=["200 per day"])
-
+limiter = Limiter(key_func=get_remote_address, default_limits=["200 per day"])
 
 def create_app(app_config = 'development'):
     app = Flask(__name__)
@@ -49,9 +45,7 @@ def create_app(app_config = 'development'):
     bootstrap.init_app(app)
     db.init_app(app)
     migrate = Migrate(app, db)
-    limiter.init_app(app)
-    #limiter = Limiter(get_remote_address, app=app, default_limits=["200 per day"])
-    
+    limiter.init_app(app)    
 
     login_manager.init_app(app)
     login_manager.login_view = 'main.login'
