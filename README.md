@@ -1,4 +1,47 @@
 # GF_Assignment_Project
+Level 6 Updates to README:
+
+
+-------------- USEFUL INFORMATION  ------------------------------------------------------------------------------
+
+Production Site: https://gfsedo.azurewebsites.net/
+Development Site: https://gfsedodev.azurewebsites.net/
+
+How to access:
+To access most functionality of the website, you will need to create an account (https://gfsedo.azurewebsites.net/RequestAccount/) or (gfsedodev.azurewebsites.net/RequestAccount/). For now there is no approval process, and to become an admin, all one must do is check a box. This isn't a secure practice as anyone can access the site with elevated permissions, however in this context it is required so that the assignment grader has easy access.
+
+
+-------------- DATABASE UPDATE (SSMS to SQLite) ------------------------------------------------------------------------------
+
+For level 5 the app was run locally, connecting to a localised SSMS (SQL Server Management Studio) database. For level 6 however, the database technology was migrated to SQLite during early stages of pipeline integration. SQLite is a serverless database technology, which allowed me to avoid costs tied with hosting a database online. Since migrating, a free voucher could be applied to Azure SQL temporarily making the service free, however since this is not the focus of the assignment, I directed my attention elsewhere.
+
+The option for SSMS is still available since all data transactions are through SQLAlchemy, as objects (ORM) as opposed to specific querying language.
+
+If it were to be set up locally, with SQLite, using db.create_all() as listed below in the step-by-step guide (9) should manage this, provided the database URL is adjusted appropriately (to a SQLite DB).
+
+To insert the role data, access the command prompt and CD to the folder containing the SQLite DB file, type 'sqlite3 "DB NAME HERE".db'. Provided the DB is found, you may then enter the following commands:
+
+- INSERT INTO Role (RoleName) VALUES ('User');
+- INSERT INTO Role (RoleName) VALUES ('Admin');
+
+AN IMAGE HAS BEEN INCLUDED LISTING HOW TO TRANSITION FROM SSMS TO SQLITE FOR LOCAL PROJECTS. (IT WAS TAKEN BEFORE THE USE OF ENVIRONMENT KEYS). SEE SQLiteTransition.png
+
+
+-------------- REQUIREMENTS UPDATE ------------------------------------------------------------------------------
+Flask-SSLify was added - allowing for HSTS enforcement. Note HSTS has been disabled for the Development Environment, as tests were failing, they were trying to access the site over HTTP. However In production HSTS has been enabled.
+
+Flask-Limiter was added to set request limits for the application... In this case, 200 requests per day, 5  per minute on Log-in.
+
+
+
+
+
+
+========================BELOW IS GUIDANCE WRITTEN AT LEVEL 5=========================================
+
+I have kept it here as historical data, set-up here is still appropriate for if the app were to be hosted locally. 
+
+----------------------------------------------------------------------------------------------
 
 ------------------------------------- Step-by-step guide -------------------------------------
 
